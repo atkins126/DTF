@@ -3,16 +3,25 @@
         <ProjectGuid>{7A46AFD1-CF2E-4EB6-8E99-E51B6949CA6E}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="AutoCompleteDSFilter\ACDSF.dproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="MDITabSet\MDITabSetDemo.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="InteritedForm\InheritedForm.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="ViewBilder\ViewBilderDemo.dproj">
+        <Projects Include="ExportXls\ExportDataSetToXls.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="LoginModule\LogingModule.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="GlobalVariable\EnvironmentSample.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="AutoCompleteDSFilter\ACDSFDemo.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ViewBuilder\ViewBuilderDemo.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -23,15 +32,6 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="ACDSF">
-        <MSBuild Projects="AutoCompleteDSFilter\ACDSF.dproj"/>
-    </Target>
-    <Target Name="ACDSF:Clean">
-        <MSBuild Projects="AutoCompleteDSFilter\ACDSF.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="ACDSF:Make">
-        <MSBuild Projects="AutoCompleteDSFilter\ACDSF.dproj" Targets="Make"/>
-    </Target>
     <Target Name="MDITabSetDemo">
         <MSBuild Projects="MDITabSet\MDITabSetDemo.dproj"/>
     </Target>
@@ -50,23 +50,59 @@
     <Target Name="InheritedForm:Make">
         <MSBuild Projects="InteritedForm\InheritedForm.dproj" Targets="Make"/>
     </Target>
-    <Target Name="ViewBilderDemo">
-        <MSBuild Projects="ViewBilder\ViewBilderDemo.dproj"/>
+    <Target Name="ExportDataSetToXls">
+        <MSBuild Projects="ExportXls\ExportDataSetToXls.dproj"/>
     </Target>
-    <Target Name="ViewBilderDemo:Clean">
-        <MSBuild Projects="ViewBilder\ViewBilderDemo.dproj" Targets="Clean"/>
+    <Target Name="ExportDataSetToXls:Clean">
+        <MSBuild Projects="ExportXls\ExportDataSetToXls.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="ViewBilderDemo:Make">
-        <MSBuild Projects="ViewBilder\ViewBilderDemo.dproj" Targets="Make"/>
+    <Target Name="ExportDataSetToXls:Make">
+        <MSBuild Projects="ExportXls\ExportDataSetToXls.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="LogingModule">
+        <MSBuild Projects="LoginModule\LogingModule.dproj"/>
+    </Target>
+    <Target Name="LogingModule:Clean">
+        <MSBuild Projects="LoginModule\LogingModule.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="LogingModule:Make">
+        <MSBuild Projects="LoginModule\LogingModule.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="EnvironmentSample">
+        <MSBuild Projects="GlobalVariable\EnvironmentSample.dproj"/>
+    </Target>
+    <Target Name="EnvironmentSample:Clean">
+        <MSBuild Projects="GlobalVariable\EnvironmentSample.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="EnvironmentSample:Make">
+        <MSBuild Projects="GlobalVariable\EnvironmentSample.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ACDSFDemo">
+        <MSBuild Projects="AutoCompleteDSFilter\ACDSFDemo.dproj"/>
+    </Target>
+    <Target Name="ACDSFDemo:Clean">
+        <MSBuild Projects="AutoCompleteDSFilter\ACDSFDemo.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ACDSFDemo:Make">
+        <MSBuild Projects="AutoCompleteDSFilter\ACDSFDemo.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ViewBuilderDemo">
+        <MSBuild Projects="ViewBuilder\ViewBuilderDemo.dproj"/>
+    </Target>
+    <Target Name="ViewBuilderDemo:Clean">
+        <MSBuild Projects="ViewBuilder\ViewBuilderDemo.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ViewBuilderDemo:Make">
+        <MSBuild Projects="ViewBuilder\ViewBuilderDemo.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="ACDSF;MDITabSetDemo;InheritedForm;ViewBilderDemo"/>
+        <CallTarget Targets="MDITabSetDemo;InheritedForm;ExportDataSetToXls;LogingModule;EnvironmentSample;ACDSFDemo;ViewBuilderDemo"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ACDSF:Clean;MDITabSetDemo:Clean;InheritedForm:Clean;ViewBilderDemo:Clean"/>
+        <CallTarget Targets="MDITabSetDemo:Clean;InheritedForm:Clean;ExportDataSetToXls:Clean;LogingModule:Clean;EnvironmentSample:Clean;ACDSFDemo:Clean;ViewBuilderDemo:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ACDSF:Make;MDITabSetDemo:Make;InheritedForm:Make;ViewBilderDemo:Make"/>
+        <CallTarget Targets="MDITabSetDemo:Make;InheritedForm:Make;ExportDataSetToXls:Make;LogingModule:Make;EnvironmentSample:Make;ACDSFDemo:Make;ViewBuilderDemo:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

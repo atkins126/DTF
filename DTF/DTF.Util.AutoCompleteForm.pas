@@ -11,29 +11,35 @@ type
   TfrmAutoComplete = class(TForm, IAutoCompleteForm)
     ListView: TListView;
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure ListViewKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure FormShow(Sender: TObject);
     procedure ListViewDblClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
+    FInActivate,
+    FEditFocused: Boolean;
+
     FDroppedDown: Boolean;
 
     FParent: TForm;
-    FAdapter: IAutoCompleteAdapter;
     FSearchEdit: TEdit;
+    FAdapter: IAutoCompleteAdapter;
 
-    FEditWndProc, FListWndProc: TWndMethod;
+    FEditWndProc,
+    FFormWndProc: TWndMethod;
 
     procedure Initialize(AParent: TForm; AEdit: TEdit;
       AAdapter: IAutoCompleteAdapter);
 
+    procedure WMActivate(var Message: TWMActivate); message WM_ACTIVATE;
+
+    procedure FormWndProc(var Message: TMessage);
     procedure EditWndProc(var Message: TMessage);
-    procedure ListWndProc(var Message: TMessage);
     procedure SearchEditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure SearchEditClick(Sender: TObject);
 
     procedure DoComplete;
-  public
     procedure DropDown;
     procedure CloseUp;
   end;
@@ -49,17 +55,23 @@ uses
 
 procedure TfrmAutoComplete.FormCreate(Sender: TObject);
 begin
+  FInActivate := False;
+
   BorderStyle := bsNone;
   Visible := False;
 end;
 
+procedure TfrmAutoComplete.FormDestroy(Sender: TObject);
+begin
+  OutputDebugString(PChar(''));
+end;
+
 procedure TfrmAutoComplete.FormShow(Sender: TObject);
 begin
-  // Set position
-  with FSearchEdit.ClientToParent(Point(0, 0), Parent) do
+  with FSearchEdit.ClientOrigin do
   begin
-    Left := X;
-    Top := Y + FSearchEdit.Height;
+    Left  := X - 2;
+    Top   := Y + FSearchEdit.Height - 2;
   end;
 end;
 
@@ -70,24 +82,53 @@ begin
     raise Exception.Create('Not enough parameters.');
 
   FParent := AParent;
+  FFormWndProc := FParent.WindowProc;
+  FParent.WindowProc := FormWndProc;
   FAdapter := AAdapter;
 
   FSearchEdit := AEdit;
   FSearchEdit.OnKeyUp := SearchEditKeyUp;
   FSearchEdit.OnClick := SearchEditClick;
-
   FEditWndProc := FSearchEdit.WindowProc;
-  FListWndProc := ListView.WindowProc;
-
-  ListView.WindowProc := ListWndProc;
+  FSearchEdit.WindowProc := EditWndProc;
 
   FAdapter.BindControl(ListView);
+end;
+
+procedure TfrmAutoComplete.DropDown;
+begin
+  if FDroppedDown then
+    Exit;
+
+  SetWindowPos(Handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE or SWP_NOMOVE or SWP_NOSIZE);
+  ShowWindow(Handle, SW_SHOWNOACTIVATE);
+  Visible := True;
+
+  FDroppedDown := True;
+end;
+
+procedure TfrmAutoComplete.CloseUp;
+begin
+  if FDroppedDown then
+  begin
+    Visible := False;
+    FDroppedDown := False;
+    ListView.ItemIndex := -1;
+  end;
+end;
+
+procedure TfrmAutoComplete.SearchEditClick(Sender: TObject);
+begin
+  FAdapter.ChangeText(FSearchEdit.Text);
+  if FSearchEdit.Text <> '' then
+    DropDown;
+  FEditFocused := False;
 end;
 
 procedure TfrmAutoComplete.SearchEditKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if Key = VK_DOWN then
+  if Key in [VK_DOWN] then
   begin
     DropDown;
     ListView.ItemIndex := Min(0, ListView.ItemIndex);
@@ -101,7 +142,8 @@ begin
   end
   else if Key = VK_RETURN then
   begin
-    DoComplete;
+    if Assigned(ListView.Selected) then
+      DoComplete;
     Exit;
   end;
 
@@ -113,38 +155,33 @@ begin
     DropDown;
 end;
 
-procedure TfrmAutoComplete.SearchEditClick(Sender: TObject);
-begin
-  if FSearchEdit.Text <> '' then
-    DropDown;
-end;
-
-procedure TfrmAutoComplete.ListViewDblClick(Sender: TObject);
-begin
-  DoComplete;
-end;
-
 procedure TfrmAutoComplete.ListViewKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if (Key = VK_UP) and (ListView.ItemIndex = 0) then
   begin
+    FEditFocused := True;
     FSearchEdit.SetFocus;
-    FSearchEdit.SelStart := Length(FSearchEdit.Text);
     Exit;
   end
   else if Key = VK_ESCAPE then
   begin
     FSearchEdit.SetFocus;
-    FSearchEdit.SelStart := Length(FSearchEdit.Text);
     CloseUp;
     Exit;
   end
   else if Key = VK_RETURN then
   begin
-    DoComplete;
+    if Assigned(ListView.Selected) then
+      DoComplete;
     Exit;
   end;
+end;
+
+procedure TfrmAutoComplete.ListViewDblClick(Sender: TObject);
+begin
+  if Assigned(ListView.Selected) then
+    DoComplete;
 end;
 
 procedure TfrmAutoComplete.DoComplete;
@@ -154,81 +191,44 @@ begin
   CloseUp;
 end;
 
-procedure TfrmAutoComplete.DropDown;
+procedure TfrmAutoComplete.WMActivate(var Message: TWMActivate);
 begin
-  if FDroppedDown then
-    Exit;
+  FInActivate := Message.Active <> WA_INACTIVE;
 
-  Visible := True;
-
-  FSearchEdit.WindowProc := EditWndProc;
-
-  FDroppedDown := True;
-end;
-
-procedure TfrmAutoComplete.CloseUp;
-begin
-  if FDroppedDown then
+  if not FInActivate then
   begin
-    FSearchEdit.WindowProc := FEditWndProc;
-    Visible := False;
-    FDroppedDown := False;
-    ListView.ItemIndex := -1;
+    if Message.ActiveWindow = FParent.Handle then
+      Application.ProcessMessages;
+
+    if not FEditFocused and (not FSearchEdit.Focused) then
+      CloseUp;
+    FEditFocused := False;
   end;
 end;
 
 procedure TfrmAutoComplete.EditWndProc(var Message: TMessage);
-var
-  Sender: TControl;
 begin
   case Message.Msg of
-  CM_CANCELMODE:
-    begin
-      Sender := TControl(Message.LParam);
-
-      if (Sender <> FSearchEdit) and (Sender <> ListView) then
-        CloseUp;
-    end;
   WM_KILLFOCUS:
-    begin
-      if not ListView.Focused then
-        CloseUp;
-    end;
-  else
-    FEditWndProc(Message);
+    if not FInActivate and not ListView.Focused then
+      CloseUp;
+  CM_MOUSEACTIVATE:
+    FEditFocused := True;
   end;
+  FEditWndProc(Message);
 end;
 
-procedure TfrmAutoComplete.ListWndProc(var Message: TMessage);
-var
-  Sender: TControl;
+procedure TfrmAutoComplete.FormWndProc(var Message: TMessage);
 begin
+  // MDIForm의 경우 Form 클릭(폼이동) 시(TCustomForm.SendCancelMode)
+    // CM_CANCELMODE 호출되지 않음
   case Message.Msg of
-  CM_CANCELMODE:
-    begin
-      Sender := TControl(Message.LParam);
-
-      if (Sender <> FSearchEdit) and (Sender <> ListView) then
-      begin
-        FSearchEdit.SetFocus;
-        FSearchEdit.SelStart := Length(FSearchEdit.Text);
-        CloseUp;
-      end;
-    end;
-  WM_KILLFOCUS:
-    begin
-      if csDestroying in ComponentState then
-        Exit;
-      if not FSearchEdit.Focused then
-      begin
-        FSearchEdit.SetFocus;
-        FSearchEdit.SelStart := Length(FSearchEdit.Text);
-        CloseUp;
-      end;
-    end;
-  else
-    FListWndProc(Message);
+  WM_LBUTTONDOWN,
+  WM_NCLBUTTONDOWN:
+    if FSearchEdit.Focused then
+      CloseUp;
   end;
+  FFormWndProc(Message);
 end;
 
 end.

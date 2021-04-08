@@ -13,6 +13,7 @@ object frmAutoComplete: TfrmAutoComplete
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -122,6 +123,7 @@ object frmAutoComplete: TfrmAutoComplete
     RowSelect = True
     ShowColumnHeaders = False
     TabOrder = 0
+    TabStop = False
     ViewStyle = vsReport
     OnDblClick = ListViewDblClick
     OnKeyDown = ListViewKeyDown

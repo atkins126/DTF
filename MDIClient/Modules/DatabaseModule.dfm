@@ -9,7 +9,6 @@ object dmDatabase: TdmDatabase
       'Password=masterkey'
       'CharacterSet=UTF8'
       'DriverID=IB')
-    Connected = True
     LoginPrompt = False
     Left = 112
     Top = 80

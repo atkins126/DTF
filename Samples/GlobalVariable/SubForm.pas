@@ -22,6 +22,7 @@ type
 
 var
   Form2: TForm2;
+//  UserId: string;
 
 implementation
 
@@ -38,7 +39,7 @@ end;
 procedure TForm2.Button2Click(Sender: TObject);
 begin
   Memo1.Lines.Clear;
-  Memo1.Lines.Add(Format('Env.Id: %s', [Env.UserId]));
+  Memo1.Lines.Add(Format('Env.Id: %s',    [Env.UserId]));
   Memo1.Lines.Add(Format('EnvObj.Id: %s', [EnvObj.UserId]));
 end;
 
