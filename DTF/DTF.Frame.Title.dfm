@@ -1,28 +1,35 @@
 inherited DTFTitleFrame: TDTFTitleFrame
   Height = 20
+  Margins.Left = 8
   Align = alTop
-  Color = clActiveCaption
   ParentBackground = False
   ParentColor = False
   ExplicitHeight = 20
-  object Title: TLabel
+  object pnlCaption: TPanel
     AlignWithMargins = True
-    Left = 8
-    Top = 2
-    Width = 422
-    Height = 15
-    Margins.Left = 8
-    Margins.Top = 2
+    Left = 0
+    Top = 0
+    Width = 433
+    Height = 20
+    Margins.Left = 0
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
     Align = alClient
+    Alignment = taLeftJustify
+    BevelOuter = bvNone
+    BorderWidth = 2
     Caption = #51228#47785
+    Color = clActiveCaption
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWhite
-    Font.Height = -13
+    Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
+    Padding.Left = 8
+    ParentBackground = False
     ParentFont = False
-    ExplicitTop = 0
-    ExplicitWidth = 22
-    ExplicitHeight = 16
+    TabOrder = 0
+    ExplicitHeight = 28
   end
 end

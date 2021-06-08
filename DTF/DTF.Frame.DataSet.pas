@@ -17,28 +17,30 @@ type
     actDSCancel: TDataSetCancel;
 
     tlbDataSet: TToolBar;
-    ToolButton11: TToolButton;
-    ToolButton1: TToolButton;
-    ToolButton2: TToolButton;
-    ToolButton3: TToolButton;
+    btnDSNew: TToolButton;
+    btnDSSave: TToolButton;
+    btnDSCancel: TToolButton;
+    btnDSDelete: TToolButton;
     DataSource: TDataSource;
-    actDSRefresh: TDataSetRefresh;
-    tbnDSRefresh: TToolButton;
+    btnDSRefresh: TToolButton;
     actDSExportXls: TAction;
-    ToolButton5: TToolButton;
+    btnExportXls: TToolButton;
+    actDSSearch: TDataSetRefresh;
+    actPrint: TAction;
+    ToolButton2: TToolButton;
 
     procedure actDSNewAppendExecute(Sender: TObject);
     procedure actDSDeleteExecute(Sender: TObject);
     procedure actDSExportXlsUpdate(Sender: TObject);
     procedure actDSExportXlsExecute(Sender: TObject);
+    procedure actDSSearchExecute(Sender: TObject);
   private
     FFocusControl: TWinControl;
+    FSearchParamProc: TProc;
   public
     property FocusControl: TWinControl read FFocusControl write FFocusControl;
+    procedure SetSearchParamProc(AProc: TProc);
   end;
-
-var
-  DTFDataSetFrame: TDTFDataSetFrame;
 
 implementation
 
@@ -48,12 +50,33 @@ uses
   DTF.Module.Resource,
   DTF.IO.Export;
 
+procedure TDTFDataSetFrame.actDSNewAppendExecute(Sender: TObject);
+begin
+  if Assigned(DataSource.DataSet) then
+  begin
+    DataSource.DataSet.Append;
+
+    if Assigned(FFocusControl) then
+      FFocusControl.SetFocus;
+  end;
+end;
+
+procedure TDTFDataSetFrame.actDSSearchExecute(Sender: TObject);
+begin
+  if Assigned(FSearchParamProc) then
+  begin
+    DataSource.DataSet.Close;
+    FSearchParamProc;
+    DataSource.DataSet.Open;
+  end
+  else
+    inherited;
+end;
+
 procedure TDTFDataSetFrame.actDSDeleteExecute(Sender: TObject);
 begin
   if MessageDlg(SDSDeleteConfirm, mtConfirmation,[mbYes, mbNo], 0) = mrOK then
-  begin
     DataSource.DataSet.Delete;
-  end;
 end;
 
 procedure TDTFDataSetFrame.actDSExportXlsExecute(Sender: TObject);
@@ -66,6 +89,7 @@ begin
   begin
     Dialog := TSaveDialog.Create(nil);
     Dialog.Filter := 'XLSX file|*.xlsx';
+    Dialog.FileName := TAction(Sender).Hint;
     if Dialog.Execute then
       LDataSet.ExportToXls(Dialog.FileName);
     Dialog.Free;
@@ -77,18 +101,12 @@ var
   LDataSet: TDataSet;
 begin
   LDataSet := DataSource.DataSet;
-  Enabled := Assigned(LDataSet) and LDataSet.Active and LDataSet.CanModify;
+  TAction(Sender).Enabled := Assigned(LDataSet) and LDataSet.Active and LDataSet.CanModify;
 end;
 
-procedure TDTFDataSetFrame.actDSNewAppendExecute(Sender: TObject);
+procedure TDTFDataSetFrame.SetSearchParamProc(AProc: TProc);
 begin
-  if Assigned(DataSource.DataSet) then
-  begin
-    DataSource.DataSet.Append;
-
-    if Assigned(FFocusControl) then
-      FFocusControl.SetFocus;
-  end;
+  FSearchParamProc := AProc;
 end;
 
 end.

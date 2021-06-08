@@ -1,10 +1,10 @@
 inherited DTFDataSetFrame: TDTFDataSetFrame
-  Width = 504
-  ExplicitWidth = 504
+  Width = 594
+  ExplicitWidth = 594
   object tlbDataSet: TToolBar
     Left = 0
     Top = 0
-    Width = 504
+    Width = 594
     Height = 22
     AutoSize = True
     ButtonWidth = 85
@@ -12,54 +12,61 @@ inherited DTFDataSetFrame: TDTFDataSetFrame
     List = True
     ShowCaptions = True
     TabOrder = 0
-    ExplicitWidth = 433
-    ExplicitHeight = 44
-    object tbnDSRefresh: TToolButton
+    object btnDSRefresh: TToolButton
       Left = 0
       Top = 0
-      Action = actDSRefresh
+      Action = actDSSearch
+      AutoSize = True
     end
-    object ToolButton11: TToolButton
-      Left = 85
+    object btnDSNew: TToolButton
+      Left = 53
       Top = 0
       Action = actDSNewAppend
       AutoSize = True
     end
-    object ToolButton1: TToolButton
-      Left = 160
+    object btnDSSave: TToolButton
+      Left = 128
       Top = 0
       Action = actDSSavePost
       AutoSize = True
     end
-    object ToolButton2: TToolButton
-      Left = 213
+    object btnDSCancel: TToolButton
+      Left = 181
       Top = 0
       Action = actDSCancel
       AutoSize = True
     end
-    object ToolButton3: TToolButton
-      Left = 288
+    object btnDSDelete: TToolButton
+      Left = 256
       Top = 0
       Action = actDSDelete
       AutoSize = True
     end
-    object ToolButton5: TToolButton
-      Left = 341
+    object btnExportXls: TToolButton
+      Left = 309
       Top = 0
       Action = actDSExportXls
+      AutoSize = True
+    end
+    object ToolButton2: TToolButton
+      Left = 398
+      Top = 0
+      Action = actPrint
+      AutoSize = True
     end
   end
   object ActionList: TActionList
     Images = dmResource.vilToolButton
     Left = 24
     Top = 64
-    object actDSRefresh: TDataSetRefresh
+    object actDSSearch: TDataSetRefresh
       Category = 'Dataset'
-      Caption = #49352#47196#44256#52840
-      Hint = #49352#47196#44256#52840
+      Caption = #51312#54924
       ImageIndex = 6
-      ImageName = 'icons8-refresh'
+      ImageName = 'icons8-search'
       ShortCut = 116
+      OnExecute = actDSSearchExecute
+      DataSource = DataSource
     end
     object actDSNewAppend: TDataSetInsert
       Category = 'Dataset'
@@ -97,6 +104,13 @@ inherited DTFDataSetFrame: TDTFDataSetFrame
       ImageIndex = 1
       ImageName = 'icons8-delete_sign'
       DataSource = DataSource
+    end
+    object actPrint: TAction
+      Category = 'Dataset'
+      Caption = #51064#49604
+      ImageIndex = 2
+      ImageName = 'icons8-print'
+      Visible = False
     end
     object actDSExportXls: TAction
       Category = 'Dataset'

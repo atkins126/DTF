@@ -5,6 +5,7 @@ interface
 uses
   DatabaseModule,
   MenuTypes,
+  DTF.Types,
   DTF.Form.Base, DTF.Form.MDIChild,
   DTF.Frame.Base, DTF.Frame.DataSet, DTF.Frame.DBGrid,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
@@ -19,6 +20,7 @@ uses
   Vcl.Buttons, DTF.Frame.Title;
 
 type
+  [ViewId('SYS1010')]
   TfrmSYS1010 = class(TDTFMDIChildForm)
     qryMenuCates: TFDQuery;
     qryMenuCatesCATE_NAME: TWideStringField;
@@ -92,7 +94,6 @@ type
     procedure trvMenusDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure actMenuTreeSaveExecute(Sender: TObject);
     procedure actMenuTreeSaveUpdate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure fmeCateDataSourceDataChange(Sender: TObject; Field: TField);
   private
     { Private declarations }
@@ -102,15 +103,11 @@ type
     { Public declarations }
   end;
 
-var
-  frmSYS1010: TfrmSYS1010;
-
 implementation
 
 {$R *.dfm}
 
 uses
-  DTF.Types,
   DTF.Module.Resource;
 
 procedure TfrmSYS1010.actMenuTreeDownExecute(Sender: TObject);
@@ -205,7 +202,12 @@ end;
 procedure TfrmSYS1010.fmeCateDataSourceDataChange(Sender: TObject;
   Field: TField);
 begin
-  // 여기서 LoadMenus 호출하면 폼 생성전 호출되어 TreeNode 클래스가 적용되지 않음
+// 10.4에서는 1회만 호출 됨
+// 10.1에서는 여러회 호출 됨(마지막은 fsCreating 제외하고 호출됨)
+//  if fsCreating in FormState then
+//    Exit;
+//
+  LoadMenus(qryMenuCates.FieldByName('cate_code').AsString);
 end;
 
 procedure TfrmSYS1010.FormCreate(Sender: TObject);
@@ -222,11 +224,6 @@ begin
   fmeCate.FocusControl := edtCateCode;
   fmeGroup.FocusControl := edtGroupCode;
   fmeMenu.FocusControl := edtMenuCode;
-end;
-
-procedure TfrmSYS1010.FormShow(Sender: TObject);
-begin
-  LoadMenus(qryMenuCates.FieldByName('cate_code').AsString);
 end;
 
 procedure TfrmSYS1010.qryMenuCatesAfterPost(DataSet: TDataSet);
@@ -348,7 +345,6 @@ begin
   end;
 
   trvMenus.Items.Clear;
-//  trvMenus.Items.BeginUpdate;
   Group := nil;
   GroupName := '';
   qryMenuTree.First;
@@ -359,22 +355,18 @@ begin
     begin
       Group := trvMenus.Items.Add(nil, GroupName) as TMenuNode;
       Group.Code := qryMenuTree.FieldByName('group_code').AsString;
-      Group.SortIndex := qryMenuTree.FieldByName('grp_idx').AsInteger;
+      Group.SortIndex := qryMenuTree.FieldByName('grp_sort').AsInteger;
       Group.ImageIndex := 0;
       Group.SelectedIndex := 0;
-      Group.Test := 'abcd';
+//      Group.Test := 'abcd';
     end;
 
-    MenuName := qryMenuTree.FieldByName('menu_name').AsString;
-    if (MenuName <> '') then
-    begin
-      Item := trvMenus.Items.AddChild(Group, qryMenuTree.FieldByName('menu_name').AsString) as TMenuNode;
-      Item.Code := qryMenuTree.FieldByName('menu_code').AsString;
-      Item.SortIndex := qryMenuTree.FieldByName('menu_idx').AsInteger;
-      Item.ParentCode := qryMenuTree.FieldByName('group_code').AsString;
-      Item.ImageIndex := 1;
-      Item.SelectedIndex := 1;
-    end;
+    Item := trvMenus.Items.AddChild(Group, qryMenuTree.FieldByName('menu_name').AsString) as TMenuNode;
+    Item.Code := qryMenuTree.FieldByName('menu_code').AsString;
+    Item.SortIndex := qryMenuTree.FieldByName('menu_sort').AsInteger;
+    Item.ParentCode := Group.Code;
+    Item.ImageIndex := 1;
+    Item.SelectedIndex := 1;
 
     qryMenuTree.Next;
   end;
@@ -384,7 +376,8 @@ begin
 end;
 
 initialization
-  TMenuFactory.Instance.Regist('SYS1010', TfrmSYS1010);
+  TViewFactory.Instance.Regist(TfrmSYS1010);
+
 finalization
 
 end.
