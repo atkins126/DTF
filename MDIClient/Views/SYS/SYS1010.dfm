@@ -59,61 +59,68 @@ inherited frmSYS1010: TfrmSYS1010
       TabOrder = 0
       inline fmeCate: TDTFDBGridFrame
         Left = 1
-        Top = 21
+        Top = 1
         Width = 460
-        Height = 155
+        Height = 175
         Align = alClient
-        Padding.Left = 8
-        Padding.Top = 4
-        Padding.Right = 8
         TabOrder = 0
         ExplicitLeft = 1
         ExplicitTop = 21
         ExplicitWidth = 460
         ExplicitHeight = 155
         inherited tlbDataSet: TToolBar
-          Width = 444
-          Height = 44
+          Left = 0
+          Top = 20
+          Width = 460
+          ExplicitTop = 24
           ExplicitWidth = 444
           ExplicitHeight = 44
+          inherited btnDSRefresh: TToolButton
+            ExplicitWidth = 53
+          end
+          inherited btnDSNew: TToolButton
+            ExplicitWidth = 75
+          end
           inherited btnDSSave: TToolButton
-            Wrap = True
+            ExplicitWidth = 53
           end
           inherited btnDSCancel: TToolButton
-            Left = 0
-            Top = 22
-            ExplicitLeft = 0
-            ExplicitTop = 22
+            ExplicitWidth = 75
           end
           inherited btnDSDelete: TToolButton
-            Left = 75
-            Top = 22
-            ExplicitLeft = 75
-            ExplicitTop = 22
+            ExplicitWidth = 53
           end
           inherited btnExportXls: TToolButton
-            Left = 128
-            Top = 22
-            ExplicitLeft = 128
-            ExplicitTop = 22
+            ExplicitWidth = 89
           end
           inherited ToolButton2: TToolButton
-            Left = 217
-            Top = 22
-            ExplicitLeft = 217
-            ExplicitTop = 22
+            ExplicitWidth = 53
           end
         end
         inherited grdMaster: TDBGrid
-          Top = 71
-          Width = 444
-          Height = 84
+          Left = 0
+          Top = 65
+          Width = 460
+          Height = 110
         end
         inherited pnlSearchControlArea: TPanel
-          Top = 48
-          Width = 444
-          ExplicitTop = 48
+          Left = 0
+          Top = 42
+          Width = 460
+          ExplicitTop = 68
           ExplicitWidth = 444
+        end
+        inherited DTFTitleFrame1: TDTFTitleFrame
+          Left = 0
+          Top = 0
+          Width = 460
+          ExplicitTop = 4
+          ExplicitWidth = 444
+          inherited pnlCaption: TPanel
+            Width = 460
+            Caption = #47700#45684' '#52852#53580#44256#47532
+            ExplicitWidth = 444
+          end
         end
         inherited DataSource: TDataSource
           DataSet = qryMenuCates
@@ -164,27 +171,6 @@ inherited frmSYS1010: TfrmSYS1010
           DataField = 'CATE_CODE'
           DataSource = fmeCate.DataSource
           TabOrder = 0
-        end
-      end
-      inline DTFTitleFrame1: TDTFTitleFrame
-        Left = 1
-        Top = 1
-        Width = 460
-        Height = 20
-        Margins.Left = 8
-        Align = alTop
-        Color = clBtnFace
-        ParentBackground = False
-        ParentColor = False
-        TabOrder = 2
-        ExplicitLeft = 1
-        ExplicitTop = 1
-        ExplicitWidth = 460
-        inherited pnlCaption: TPanel
-          Width = 460
-          Caption = #47700#45684' '#52852#53580#44256#47532
-          ExplicitWidth = 460
-          ExplicitHeight = 20
         end
       end
     end
@@ -277,7 +263,6 @@ inherited frmSYS1010: TfrmSYS1010
           Width = 461
           Caption = #48120#47532#48372#44592
           ExplicitWidth = 461
-          ExplicitHeight = 20
         end
       end
     end
@@ -291,61 +276,77 @@ inherited frmSYS1010: TfrmSYS1010
       TabOrder = 2
       inline fmeGroup: TDTFDBGridFrame
         Left = 1
-        Top = 21
+        Top = 1
         Width = 460
-        Height = 147
+        Height = 167
         Align = alClient
-        Padding.Left = 8
-        Padding.Top = 4
-        Padding.Right = 8
         TabOrder = 0
         ExplicitLeft = 1
         ExplicitTop = 21
         ExplicitWidth = 460
         ExplicitHeight = 147
         inherited tlbDataSet: TToolBar
-          Width = 444
-          Height = 44
+          Left = 0
+          Top = 20
+          Width = 460
+          ExplicitTop = 24
           ExplicitWidth = 444
           ExplicitHeight = 44
+          inherited btnDSRefresh: TToolButton
+            ExplicitWidth = 53
+          end
+          inherited btnDSNew: TToolButton
+            ExplicitWidth = 75
+          end
           inherited btnDSSave: TToolButton
-            Wrap = True
+            ExplicitWidth = 53
           end
           inherited btnDSCancel: TToolButton
-            Left = 0
-            Top = 22
-            ExplicitLeft = 0
-            ExplicitTop = 22
+            ExplicitWidth = 75
           end
           inherited btnDSDelete: TToolButton
-            Left = 75
-            Top = 22
-            ExplicitLeft = 75
-            ExplicitTop = 22
+            ExplicitWidth = 53
           end
           inherited btnExportXls: TToolButton
-            Left = 128
-            Top = 22
-            ExplicitLeft = 128
-            ExplicitTop = 22
+            ExplicitWidth = 89
           end
           inherited ToolButton2: TToolButton
-            Left = 217
-            Top = 22
-            ExplicitLeft = 217
-            ExplicitTop = 22
+            ExplicitWidth = 53
           end
         end
         inherited grdMaster: TDBGrid
-          Top = 71
-          Width = 444
-          Height = 76
+          Left = 0
+          Top = 65
+          Width = 460
+          Height = 102
         end
         inherited pnlSearchControlArea: TPanel
-          Top = 48
-          Width = 444
-          ExplicitTop = 48
+          Left = 0
+          Top = 42
+          Width = 460
+          ExplicitTop = 68
           ExplicitWidth = 444
+        end
+        inherited DTFTitleFrame1: TDTFTitleFrame
+          Left = 0
+          Top = 0
+          Width = 460
+          ExplicitTop = 4
+          ExplicitWidth = 444
+          inherited pnlCaption: TPanel
+            Width = 460
+            Caption = #47700#45684' '#44536#47353
+            ExplicitWidth = 444
+          end
+        end
+        inherited ActionList: TActionList
+          inherited actPrint: TAction
+            Hint = #47700#45684' '#44536#47353
+            Visible = True
+          end
+          inherited actDSExportXls: TAction
+            Visible = True
+          end
         end
         inherited DataSource: TDataSource
           DataSet = qryMenuGroups
@@ -397,27 +398,6 @@ inherited frmSYS1010: TfrmSYS1010
           TabOrder = 0
         end
       end
-      inline DTFTitleFrame3: TDTFTitleFrame
-        Left = 1
-        Top = 1
-        Width = 460
-        Height = 20
-        Margins.Left = 8
-        Align = alTop
-        Color = clBtnFace
-        ParentBackground = False
-        ParentColor = False
-        TabOrder = 2
-        ExplicitLeft = 1
-        ExplicitTop = 1
-        ExplicitWidth = 460
-        inherited pnlCaption: TPanel
-          Width = 460
-          Caption = #47700#45684' '#44536#47353
-          ExplicitWidth = 460
-          ExplicitHeight = 20
-        end
-      end
     end
     object pnlMenu: TPanel
       Left = 463
@@ -430,61 +410,68 @@ inherited frmSYS1010: TfrmSYS1010
       TabOrder = 3
       inline fmeMenu: TDTFDBGridFrame
         Left = 1
-        Top = 21
+        Top = 1
         Width = 461
-        Height = 147
+        Height = 167
         Align = alClient
-        Padding.Left = 8
-        Padding.Top = 4
-        Padding.Right = 8
         TabOrder = 0
         ExplicitLeft = 1
         ExplicitTop = 21
         ExplicitWidth = 461
         ExplicitHeight = 147
         inherited tlbDataSet: TToolBar
-          Width = 445
-          Height = 44
+          Left = 0
+          Top = 20
+          Width = 461
+          ExplicitTop = 24
           ExplicitWidth = 445
           ExplicitHeight = 44
+          inherited btnDSRefresh: TToolButton
+            ExplicitWidth = 53
+          end
+          inherited btnDSNew: TToolButton
+            ExplicitWidth = 75
+          end
           inherited btnDSSave: TToolButton
-            Wrap = True
+            ExplicitWidth = 53
           end
           inherited btnDSCancel: TToolButton
-            Left = 0
-            Top = 22
-            ExplicitLeft = 0
-            ExplicitTop = 22
+            ExplicitWidth = 75
           end
           inherited btnDSDelete: TToolButton
-            Left = 75
-            Top = 22
-            ExplicitLeft = 75
-            ExplicitTop = 22
+            ExplicitWidth = 53
           end
           inherited btnExportXls: TToolButton
-            Left = 128
-            Top = 22
-            ExplicitLeft = 128
-            ExplicitTop = 22
+            ExplicitWidth = 89
           end
           inherited ToolButton2: TToolButton
-            Left = 217
-            Top = 22
-            ExplicitLeft = 217
-            ExplicitTop = 22
+            ExplicitWidth = 53
           end
         end
         inherited grdMaster: TDBGrid
-          Top = 71
-          Width = 445
-          Height = 76
+          Left = 0
+          Top = 65
+          Width = 461
+          Height = 102
         end
         inherited pnlSearchControlArea: TPanel
-          Top = 48
-          Width = 445
-          ExplicitTop = 48
+          Left = 0
+          Top = 42
+          Width = 461
+          ExplicitTop = 68
           ExplicitWidth = 445
+        end
+        inherited DTFTitleFrame1: TDTFTitleFrame
+          Left = 0
+          Top = 0
+          Width = 461
+          ExplicitTop = 4
+          ExplicitWidth = 445
+          inherited pnlCaption: TPanel
+            Width = 461
+            Caption = #47700#45684
+            ExplicitWidth = 445
+          end
         end
         inherited ActionList: TActionList
           Left = 48
@@ -542,27 +529,6 @@ inherited frmSYS1010: TfrmSYS1010
           TabOrder = 1
         end
       end
-      inline DTFTitleFrame4: TDTFTitleFrame
-        Left = 1
-        Top = 1
-        Width = 461
-        Height = 20
-        Margins.Left = 8
-        Align = alTop
-        Color = clBtnFace
-        ParentBackground = False
-        ParentColor = False
-        TabOrder = 2
-        ExplicitLeft = 1
-        ExplicitTop = 1
-        ExplicitWidth = 461
-        inherited pnlCaption: TPanel
-          Width = 461
-          Caption = #47700#45684
-          ExplicitWidth = 461
-          ExplicitHeight = 20
-        end
-      end
     end
   end
   object qryMenuCates: TFDQuery
@@ -591,6 +557,7 @@ inherited frmSYS1010: TfrmSYS1010
     end
   end
   object qryMenuGroups: TFDQuery
+    Active = True
     AfterPost = qryMenuGroupsAfterPost
     IndexFieldNames = 'CATE_CODE'
     MasterSource = fmeCate.DataSource
@@ -642,6 +609,7 @@ inherited frmSYS1010: TfrmSYS1010
     end
   end
   object qryMenuItems: TFDQuery
+    Active = True
     IndexFieldNames = 'GROUP_CODE'
     MasterSource = fmeGroup.DataSource
     MasterFields = 'GROUP_CODE'
@@ -649,6 +617,7 @@ inherited frmSYS1010: TfrmSYS1010
     Connection = dmDatabase.FDConnection
     UpdateOptions.AssignedValues = [uvGeneratorName]
     UpdateOptions.GeneratorName = 'MENU_SEQ_GEN'
+    UpdateObject = FDUpdateSQL1
     SQL.Strings = (
       'SELECT * FROM menu_items'
       'ORDER BY group_code, sort_index')
@@ -767,5 +736,9 @@ inherited frmSYS1010: TfrmSYS1010
     Connection = dmDatabase.FDConnection
     Left = 520
     Top = 152
+  end
+  object FDUpdateSQL1: TFDUpdateSQL
+    Left = 776
+    Top = 448
   end
 end

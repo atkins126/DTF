@@ -64,6 +64,7 @@ type
     procedure trvMenusCreateNodeClass(Sender: TCustomTreeView;
       var NodeClass: TTreeNodeClass);
     procedure trvMenusChange(Sender: TObject; Node: TTreeNode);
+    procedure trvMenusClick(Sender: TObject);
   private
     procedure AppMessage(var Msg: TMsg; var Handled: Boolean);
 
@@ -89,15 +90,16 @@ implementation
 uses
   DatabaseModule,
   DTF.App,
-  DTF.Types,
+  DTF.Types.View,
   DTF.Module.Resource,
-  DTF.Util.AutoComplete;
+  DTF.Utils.AutoComplete;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
   FormStyle := fsMDIForm;
 
   Application.OnMessage := AppMessage;
+//  Application.OnException := AppException;
 
   LoadTreeMenu('home');
 
@@ -116,8 +118,9 @@ begin
         end)
   );
 
+  ExtractFilePath(Application.ExeName);
   WindowState := App.Config.WindowState;
-  BoundsRect := App.Config.WindowBounds;
+//  BoundsRect := App.Config.WindowBounds;
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
@@ -212,6 +215,7 @@ begin
     Item.ParentCode := Group.Code;
     Item.ImageIndex := 1;
     Item.SelectedIndex := 1;
+//    Item.Enabled := False;
 
     qryMenuTree.Next;
   end;
@@ -234,8 +238,22 @@ end;
 
 procedure TfrmMain.trvMenusChange(Sender: TObject; Node: TTreeNode);
 begin
-  if Node.Level = 1 then
-    CreateMDIForm((Node as TMenuNode).Code);
+//  if Node.Enabled and (Node.Level = 1) then
+//    CreateMDIForm((Node as TMenuNode).Code);
+end;
+
+procedure TfrmMain.trvMenusClick(Sender: TObject);
+var
+  P: TPoint;
+  Node: TTreeNode;
+begin
+  P := trvMenus.ScreenToClient(Mouse.CursorPos);
+  Node := trvMenus.GetNodeAt(P.X, P.Y);
+
+  if Assigned(Node) and Node.Enabled and (Node.Level = 1) then
+    CreateMDIForm((trvMenus.Selected as TMenuNode).Code);
+
+  App.Log.Info('test');
 end;
 
 procedure TfrmMain.trvMenusCreateNodeClass(Sender: TCustomTreeView;

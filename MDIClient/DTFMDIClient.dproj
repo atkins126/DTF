@@ -116,7 +116,6 @@
         <DCCReference Include="Common\MenuTypes.pas"/>
         <DCCReference Include="..\DTF\DTF.Form.MDIChild.pas">
             <Form>DTFMDIChildForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\DTF\DTF.Types.pas"/>
         <DCCReference Include="Views\SYS\SYS1010.pas">
@@ -130,7 +129,6 @@
         </DCCReference>
         <DCCReference Include="..\DTF\DTF.Frame.DataSet.pas">
             <Form>DTFDataSetFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\DTF\DTF.Module.Resource.pas">
@@ -143,11 +141,11 @@
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="..\DTF\DTF.Util.AutoCompleteForm.pas">
+        <DCCReference Include="..\DTF\DTF.Utils.AutoCompleteForm.pas">
             <Form>frmAutoComplete</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\DTF\DTF.Util.AutoComplete.pas"/>
+        <DCCReference Include="..\DTF\DTF.Utils.AutoComplete.pas"/>
         <DCCReference Include="Config\DTF.Config.pas"/>
         <DCCReference Include="Modules\UserModule.pas">
             <Form>dmUser</Form>
@@ -159,7 +157,7 @@
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="..\DTF\DTF.IO.Export.pas"/>
+        <DCCReference Include="..\DTF\DTF.Utils.Export.pas"/>
         <DCCReference Include="Views\Test\Test1Form.pas">
             <Form>frmTest1</Form>
             <FormType>dfm</FormType>
@@ -170,7 +168,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\DTF\DTF.Auth.pas"/>
-        <DCCReference Include="..\DTF\DTF.App.Base.pas"/>
+        <DCCReference Include="..\DTF\DTF.App.Core.pas"/>
         <DCCReference Include="Config\DTF.App.pas"/>
         <DCCReference Include="Services\AuthService.pas"/>
         <DCCReference Include="Services\MenuService.pas"/>
@@ -191,7 +189,20 @@
             <Form>frmTest3</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\DTF\DTF.GridInfo.pas"/>
+        <DCCReference Include="..\DTF\DTF.Utils.Extract.pas"/>
+        <DCCReference Include="..\DTF\DTF.Utils.Print.pas"/>
+        <DCCReference Include="..\DTF\DTF.Types.View.pas"/>
+        <DCCReference Include="..\DTF\DTF.Logger.pas"/>
+        <DCCReference Include="..\DTF\DTF.Service.Loader.pas"/>
+        <DCCReference Include="..\DTF\DTF.Logger.FileLog.pas"/>
+        <DCCReference Include="..\DTF\DTF.Logger.ODS.pas"/>
+        <DCCReference Include="..\DTF\DTF.Service.Config.pas"/>
+        <DCCReference Include="..\DTF\DTF.Config.IniLoader.pas"/>
+        <DCCReference Include="..\DTF\DTF.Service.View.pas"/>
+        <DCCReference Include="Views\Test\Test4Form.pas">
+            <Form>frmTest4</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -4,10 +4,12 @@ interface
 
 uses
   DatabaseModule,
-  MenuTypes,
-  DTF.Types,
-  DTF.Form.Base, DTF.Form.MDIChild,
-  DTF.Frame.Base, DTF.Frame.DataSet, DTF.Frame.DBGrid,
+  DTF.Types.View,
+  DTF.Form.MDIChild,
+  DTF.Frame.Base,
+  DTF.Frame.DataSet,
+  DTF.Frame.DBGrid,
+
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.BaseImageCollection, Vcl.ImageCollection, System.ImageList, Vcl.ImgList,
@@ -50,10 +52,7 @@ type
     btnMenuRefresh: TSpeedButton;
     Label5: TLabel;
     edtCateCode: TDBEdit;
-    DTFTitleFrame1: TDTFTitleFrame;
     DTFTitleFrame2: TDTFTitleFrame;
-    DTFTitleFrame3: TDTFTitleFrame;
-    DTFTitleFrame4: TDTFTitleFrame;
     qryMenuCatesCATE_CODE: TWideStringField;
     qryMenuGroupsGROUP_CODE: TWideStringField;
     qryMenuGroupsCATE_CODE: TWideStringField;
@@ -79,6 +78,7 @@ type
     actMenuTreeUp: TAction;
     actMenuTreeDown: TAction;
     qryMenuUpdate: TFDQuery;
+    FDUpdateSQL1: TFDUpdateSQL;
     procedure FormCreate(Sender: TObject);
     procedure qryMenuCatesAfterPost(DataSet: TDataSet);
     procedure qryMenuGroupsAfterPost(DataSet: TDataSet);
@@ -108,6 +108,7 @@ implementation
 {$R *.dfm}
 
 uses
+  MenuTypes,
   DTF.Module.Resource;
 
 procedure TfrmSYS1010.actMenuTreeDownExecute(Sender: TObject);

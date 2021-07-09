@@ -1,61 +1,104 @@
 unit DTF.App;
 
+{
+  How to use
+    App.Config.UserId
+    App.Logger.Log(ALog); // TLogger.Log
+
+    App.Auth
+    app.Perm
+
+    App.Utils.Printer ??
+    App.Utils.Export ??
+}
+
 interface
 
 uses
-  DTF.App.Base,
+  DTF.App.Core,
   DTF.Service.Types,
-  DTF.Config;
+  DTF.Config,
+  MenuService;
 
 type
-  TApp = class(TDTFApp<TApp>)
+  TApp = class(TAppCore<TApp>)
   private
-    FConfigService: TConfigService;
+    function GetConfigService: TConfig;
+    function GetMenuService: TMenuService;
   protected
-    procedure Initialize; override;
-    procedure Finalize; override;
+    procedure InitLoader; override;
   public
-    constructor Create;
-    destructor Destroy; override;
+    procedure AfterConstruction; override;
+    procedure BeforeDestruction; override;
 
-    property Config: TConfigService read FConfigService;
+    property Config: TConfig read GetConfigService;
+    property Menu: TMenuService read GetMenuService;
+//    property Auth;
+//    property View;
+
+    // property Auth;
   end;
 
-var
-  App: TApp;
+function App: TApp;
 
 implementation
 
+uses
+  DTF.Logger.FileLog, DTF.Logger.ODS,
+  DTF.Config.IniLoader;
+
+function App: TApp;
+begin
+  Result := TApp.Instance;
+end;
+
 { TApp }
 
-constructor TApp.Create;
-begin
-
-
-end;
-
-destructor TApp.Destroy;
-begin
-
-  inherited;
-end;
-
-procedure TApp.Finalize;
+procedure TApp.AfterConstruction;
 begin
   inherited;
 
-  FConfigService.Free;
+//  FConfigService := TConfigService.Create;
+//
+//  RegService(IDTFConfigService, TConfigService);
+
+//  AddService()
 end;
 
-procedure TApp.Initialize;
+procedure TApp.BeforeDestruction;
 begin
   inherited;
 
-  FConfigService := TConfigService.Create;
+//  FConfigService.Free;
+end;
+
+function TApp.GetConfigService: TConfig;
+begin
+  Result := GetService(IDTFConfigService) as TConfig;
+end;
+
+function TApp.GetMenuService: TMenuService;
+begin
+  Result := GetService(IDTFMenuService) as TMenuService;
+//  Result := ;
+end;
+
+procedure TApp.InitLoader;
+var
+  Logger: TFileLogger;
+begin
+  FServiceLoader.ServiceProvider[IDTFConfigService] := TConfig.Create({TIniConfigLoader.Create(Self, 'Config.ini')});
+
+//  Logger := TFileLogger.Create;
+//  Logger.FileFormat := 'YYYY-MM-DD.log';
+//  FServiceLoader.ServiceProvider[IDTFLogService] := Logger;
+  FServiceLoader.ServiceProvider[IDTFLogService] := TODSLogger.Create;
 end;
 
 initialization
-  App := TApp.Instance;
+//  App := TApp.Instance;
+
+//  App.View;
 finalization
 
 end.

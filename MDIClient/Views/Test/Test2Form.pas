@@ -3,7 +3,7 @@ unit Test2Form;
 interface
 
 uses
-  DTF.Types, DTF.GridInfo,
+  DTF.Types.View, DTF.Utils.Extract,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, DTF.Form.MDIChild, DTF.Frame.StrGrid,
   DTF.Frame.Base, DTF.Frame.Title, Vcl.StdCtrls, Vcl.WinXCtrls, Vcl.Grids, Vcl.ExtCtrls,
@@ -16,28 +16,27 @@ type
   { TODO : Design 관련 Attr 추가하면 좋을 듯
      - Align, Color, Caption 등 }
   TGridData = record
-    [IntCol(0)]
+    [IntCol]
     Int: Integer;
 
-    [IntCol(1)][ColColor]
+    [IntCol][ColColor]
     Int2: Integer;
 
-    [StrCol(2)]
+    [StrCol(120)]
     Str: string;
 
-    [DblCol(3, '#,##0.###')]
+    [DblCol(100, '#,##0.###')]
     Dbl: Single;
 
-    [DtmCol(4, 100, 'YYYY-MM-DD')]
+    [DtmCol(100, 'YYYY-MM-DD')]
     Dtm: TDatetime;
 
-    [IntCol(5)]
+    [IntCol]
     function Sum: Integer;
   end;
 
   [ViewId('TST2010')]
   TfrmTest2 = class(TDTFMDIChildForm)
-    DTFTitleFrame1: TDTFTitleFrame;
     DTFStrGridFrame1: TDTFStrGridFrame;
     pnlSearchPanel: TPanel;
     edtKeyword: TSearchBox;
@@ -104,7 +103,7 @@ begin
     qryTestData.Next;
   end;
 
-  DTFStrGridFrame1.FillDataRows<TGridData>(Datas);
+  DTFStrGridFrame1.WriteDatas<TGridData>(Datas);
 end;
 
 initialization

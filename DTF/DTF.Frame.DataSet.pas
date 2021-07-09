@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   System.UITypes, 
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, DTF.Frame.Base, Vcl.ComCtrls,
-  Vcl.ToolWin, Vcl.DBActns, System.Actions, Vcl.ActnList, Data.DB, DTF.Types;
+  Vcl.ToolWin, Vcl.DBActns, System.Actions, Vcl.ActnList, Data.DB, DTF.Types,
+  DTF.Frame.Title;
 
 type
   TDTFDataSetFrame = class(TDTFBaseFrame)
@@ -28,12 +29,14 @@ type
     actDSSearch: TDataSetRefresh;
     actPrint: TAction;
     ToolButton2: TToolButton;
+    DTFTitleFrame1: TDTFTitleFrame;
 
     procedure actDSNewAppendExecute(Sender: TObject);
     procedure actDSDeleteExecute(Sender: TObject);
     procedure actDSExportXlsUpdate(Sender: TObject);
     procedure actDSExportXlsExecute(Sender: TObject);
     procedure actDSSearchExecute(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
   private
     FFocusControl: TWinControl;
     FSearchParamProc: TProc;
@@ -48,7 +51,7 @@ implementation
 
 uses
   DTF.Module.Resource,
-  DTF.IO.Export;
+  DTF.Utils.Export;
 
 procedure TDTFDataSetFrame.actDSNewAppendExecute(Sender: TObject);
 begin
@@ -91,9 +94,19 @@ begin
     Dialog.Filter := 'XLSX file|*.xlsx';
     Dialog.FileName := TAction(Sender).Hint;
     if Dialog.Execute then
-      LDataSet.ExportToXls(Dialog.FileName);
+      TExportUtil.SaveToXlsFromDataset(LDataSet, Dialog.FileName);
+//      LDataSet.ExportToXls(Dialog.FileName);
     Dialog.Free;
   end;
+end;
+
+procedure TDTFDataSetFrame.actPrintExecute(Sender: TObject);
+var
+  LDataSet: TDataSet;
+begin
+  LDataSet := DataSource.DataSet;
+  if Assigned(LDataSet) then
+    TExportUtil.PrintFromDataSet(LDataSet, TAction(Sender).Hint);
 end;
 
 procedure TDTFDataSetFrame.actDSExportXlsUpdate(Sender: TObject);
